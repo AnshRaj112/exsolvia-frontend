@@ -77,8 +77,16 @@
 }
 
 .contactIcon {
-  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff6565;
   opacity: 0.8;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .quickLinks,
