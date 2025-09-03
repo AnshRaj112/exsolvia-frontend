@@ -8,7 +8,7 @@ const About: React.FC = () => {
       <div className={styles.container}>
         <h1 className={styles.title}>About EXSOLVIA</h1>
         <p className={styles.subtitle}>
-          We identify overlooked problems and build scalable solutions that transform industries. Our mission is to bridge the gap between what exists and what's truly needed.
+          We identify overlooked problems and build scalable solutions that transform industries. Our mission is to bridge the gap between what exists and what&apos;s truly needed.
         </p>
 
         <div className={styles.highlights}>
