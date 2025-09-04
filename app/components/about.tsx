@@ -4,7 +4,7 @@ import { BsBuildingFill, BsRocketTakeoffFill, BsCompassFill } from 'react-icons/
 
 const About: React.FC = () => {
   return (
-    <section className={styles.aboutSection}>
+    <section id="about" className={styles.aboutSection}>
       <div className={styles.container}>
         <h1 className={styles.title}>About EXSOLVIA</h1>
         <p className={styles.subtitle}>
