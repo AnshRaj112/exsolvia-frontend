@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://exsolvia.com
+
+# Sitemaps
+Sitemap: https://exsolvia.com/sitemap.xml
