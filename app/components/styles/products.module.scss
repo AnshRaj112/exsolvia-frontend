@@ -1,0 +1,103 @@
+.productsSection {
+  background: #212933;
+  padding: 80px 0;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.titleBase {
+  color: #ffffff;
+}
+
+.titleHighlight {
+  color: #f66;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: #aab4bf;
+  text-align: center;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.cardKampyn {
+  background: linear-gradient(90deg, #4ea199, #6fc3bd);
+  border-radius: 12px;
+  padding: 20px;
+  color: #0f1a1a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.iconWrap {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 26, 26, 0.1);
+  color: #0f1a1a;
+  border-radius: 8px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cardTag {
+  font-size: 12px;
+  color: rgba(15, 26, 26, 0.8);
+}
+
+.cardDescription {
+  margin-top: 14px;
+  color: rgba(15, 26, 26, 0.9);
+}
+
+.featuresList {
+  margin-top: 12px;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.ctaButton {
+  margin-top: 16px;
+  width: 100%;
+  background: rgba(15, 26, 26, 0.18);
+  color: #0f1a1a;
+  border: 1px solid rgba(15, 26, 26, 0.24);
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
