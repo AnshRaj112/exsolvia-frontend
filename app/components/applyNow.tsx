@@ -1,6 +1,12 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles/applyNow.module.scss';
+
+interface Position {
+  _id: string;
+  title: string;
+  isActive: boolean;
+}
 
 const ApplyNow: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -15,11 +21,35 @@ const ApplyNow: React.FC = () => {
     message: '',
   });
   
+  const [positions, setPositions] = useState<Position[]>([]);
+  const [loadingPositions, setLoadingPositions] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: 'success' | 'error' | null;
     message: string;
   }>({ type: null, message: '' });
+
+  useEffect(() => {
+    fetchPositions();
+  }, []);
+
+  const fetchPositions = async () => {
+    try {
+      setLoadingPositions(true);
+      const response = await fetch('/api/positions');
+      const data = await response.json();
+
+      if (data.success) {
+        setPositions(data.data);
+      } else {
+        console.error('Failed to load positions:', data.error);
+      }
+    } catch (err) {
+      console.error('Error fetching positions:', err);
+    } finally {
+      setLoadingPositions(false);
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -155,17 +185,16 @@ const ApplyNow: React.FC = () => {
                 onChange={handleChange}
                 required
                 className={styles.input}
+                disabled={loadingPositions}
               >
-                <option value="">Select a position</option>
-                <option value="Software Engineer">Software Engineer</option>
-                <option value="Frontend Developer">Frontend Developer</option>
-                <option value="Backend Developer">Backend Developer</option>
-                <option value="Full Stack Developer">Full Stack Developer</option>
-                <option value="UI/UX Designer">UI/UX Designer</option>
-                <option value="DevOps Engineer">DevOps Engineer</option>
-                <option value="Product Manager">Product Manager</option>
-                <option value="Marketing Specialist">Marketing Specialist</option>
-                <option value="Other">Other</option>
+                <option value="">
+                  {loadingPositions ? 'Loading positions...' : 'Select a position'}
+                </option>
+                {positions.map((position) => (
+                  <option key={position._id} value={position.title}>
+                    {position.title}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
