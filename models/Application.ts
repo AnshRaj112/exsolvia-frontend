@@ -3,9 +3,9 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IApplication extends Document {
   name: string;
   email: string;
-  phone?: string;
+  phone: string;
   position: string;
-  resume?: string; // URL or file path
+  resume: string; // URL or file path
   coverLetter?: string;
   portfolio?: string;
   linkedin?: string;
@@ -32,6 +32,7 @@ const ApplicationSchema: Schema = new Schema(
     },
     phone: {
       type: String,
+      required: [true, 'Phone is required'],
       trim: true,
     },
     position: {
@@ -41,6 +42,7 @@ const ApplicationSchema: Schema = new Schema(
     },
     resume: {
       type: String,
+      required: [true, 'Resume is required'],
       trim: true,
     },
     coverLetter: {

@@ -9,7 +9,6 @@ const ApplyNow: React.FC = () => {
     phone: '',
     position: '',
     resume: '',
-    coverLetter: '',
     portfolio: '',
     linkedin: '',
     github: '',
@@ -60,7 +59,6 @@ const ApplyNow: React.FC = () => {
           phone: '',
           position: '',
           resume: '',
-          coverLetter: '',
           portfolio: '',
           linkedin: '',
           github: '',
@@ -131,13 +129,16 @@ const ApplyNow: React.FC = () => {
 
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
-              <label htmlFor="phone" className={styles.label}>Phone</label>
+              <label htmlFor="phone" className={styles.label}>
+                Phone <span className={styles.required}>*</span>
+              </label>
               <input
                 type="tel"
                 id="phone"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                required
                 className={styles.input}
                 placeholder="+1 234 567 8900"
               />
@@ -171,13 +172,16 @@ const ApplyNow: React.FC = () => {
 
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
-              <label htmlFor="resume" className={styles.label}>Resume URL</label>
+              <label htmlFor="resume" className={styles.label}>
+                Resume URL <span className={styles.required}>*</span>
+              </label>
               <input
                 type="url"
                 id="resume"
                 name="resume"
                 value={formData.resume}
                 onChange={handleChange}
+                required
                 className={styles.input}
                 placeholder="https://example.com/resume.pdf"
               />
@@ -223,19 +227,6 @@ const ApplyNow: React.FC = () => {
                 placeholder="https://github.com/username"
               />
             </div>
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="coverLetter" className={styles.label}>Cover Letter</label>
-            <textarea
-              id="coverLetter"
-              name="coverLetter"
-              value={formData.coverLetter}
-              onChange={handleChange}
-              rows={5}
-              className={styles.textarea}
-              placeholder="Tell us why you're interested in joining our team..."
-            />
           </div>
 
           <div className={styles.formGroup}>

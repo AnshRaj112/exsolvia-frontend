@@ -6,9 +6,9 @@ interface Application {
   _id: string;
   name: string;
   email: string;
-  phone?: string;
+  phone: string;
   position: string;
-  resume?: string;
+  resume: string;
   coverLetter?: string;
   portfolio?: string;
   linkedin?: string;
@@ -160,12 +160,10 @@ const AdminPage: React.FC = () => {
                               {selectedApplication.email}
                             </a>
                           </div>
-                          {selectedApplication.phone && (
-                            <div className={styles.detailRow}>
-                              <strong>Phone:</strong>
-                              <span>{selectedApplication.phone}</span>
-                            </div>
-                          )}
+                          <div className={styles.detailRow}>
+                            <strong>Phone:</strong>
+                            <span>{selectedApplication.phone}</span>
+                          </div>
                           <div className={styles.detailRow}>
                             <strong>Position:</strong>
                             <span>{selectedApplication.position}</span>
@@ -174,19 +172,17 @@ const AdminPage: React.FC = () => {
 
                         <div className={styles.detailSection}>
                           <h3 className={styles.sectionTitle}>Links & Resources</h3>
-                          {selectedApplication.resume && (
-                            <div className={styles.detailRow}>
-                              <strong>Resume:</strong>
-                              <a
-                                href={selectedApplication.resume}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={styles.link}
-                              >
-                                View Resume
-                              </a>
-                            </div>
-                          )}
+                          <div className={styles.detailRow}>
+                            <strong>Resume:</strong>
+                            <a
+                              href={selectedApplication.resume}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.link}
+                            >
+                              View Resume
+                            </a>
+                          </div>
                           {selectedApplication.portfolio && (
                             <div className={styles.detailRow}>
                               <strong>Portfolio:</strong>
@@ -227,15 +223,6 @@ const AdminPage: React.FC = () => {
                             </div>
                           )}
                         </div>
-
-                        {selectedApplication.coverLetter && (
-                          <div className={styles.detailSection}>
-                            <h3 className={styles.sectionTitle}>Cover Letter</h3>
-                            <p className={styles.detailText}>
-                              {selectedApplication.coverLetter}
-                            </p>
-                          </div>
-                        )}
 
                         {selectedApplication.message && (
                           <div className={styles.detailSection}>

@@ -21,9 +21,9 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // Validate required fields
-    if (!name || !email || !position) {
+    if (!name || !email || !phone || !position || !resume) {
       return NextResponse.json(
-        { success: false, error: 'Name, email, and position are required' },
+        { success: false, error: 'Name, email, phone, position, and resume are required' },
         { status: 400 }
       );
     }
