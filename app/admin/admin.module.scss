@@ -1,0 +1,310 @@
+.adminPage {
+  min-height: 100vh;
+  background: #212933;
+  padding: 40px 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #aab4bf;
+  font-size: 16px;
+}
+
+.loading,
+.error,
+.emptyState {
+  text-align: center;
+  padding: 40px 0;
+  color: #aab4bf;
+}
+
+.error {
+  color: #f66;
+}
+
+.emptyState {
+  background: #1c2126;
+  border-radius: 12px;
+  padding: 60px 20px;
+  margin-top: 20px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 400px 1fr;
+  }
+}
+
+.listContainer {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.applicationList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.applicationCard {
+  background: #1c2126;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 102, 102, 0.3);
+  }
+
+  &.active {
+    border-color: #f66;
+    background: #2a3441;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 12px;
+}
+
+.applicantName {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  flex: 1;
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.statusPending {
+  background: rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.statusReviewed {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.statusAccepted {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.statusRejected {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.applicantEmail {
+  font-size: 14px;
+  color: #aab4bf;
+  margin: 4px 0;
+  word-break: break-all;
+}
+
+.applicantPosition {
+  font-size: 14px;
+  color: #f66;
+  font-weight: 500;
+  margin: 4px 0;
+}
+
+.applicantDate {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 8px 0 0 0;
+}
+
+.detailContainer {
+  background: #1c2126;
+  border-radius: 12px;
+  padding: 32px;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.applicationDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.detailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detailTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.detailContent {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.detailSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detailRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 0;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  strong {
+    color: #aab4bf;
+    font-weight: 600;
+    min-width: 120px;
+  }
+
+  span,
+  a {
+    color: #ffffff;
+  }
+}
+
+.link {
+  color: #f66 !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #ff4444 !important;
+    text-decoration: underline;
+  }
+}
+
+.detailText {
+  color: #e5e7eb;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.emptyDetail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* Scrollbar styles */
+.listContainer::-webkit-scrollbar,
+.detailContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.listContainer::-webkit-scrollbar-track,
+.detailContainer::-webkit-scrollbar-track {
+  background: #1c2126;
+  border-radius: 4px;
+}
+
+.listContainer::-webkit-scrollbar-thumb,
+.detailContainer::-webkit-scrollbar-thumb {
+  background: #2a3441;
+  border-radius: 4px;
+
+  &:hover {
+    background: #3a4451;
+  }
+}
+
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .listContainer {
+    max-height: 300px;
+  }
+
+  .detailContainer {
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+
+  .detailContainer {
+    padding: 20px;
+  }
+
+  .detailTitle {
+    font-size: 24px;
+  }
+}
+
