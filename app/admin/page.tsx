@@ -14,7 +14,7 @@ interface Application {
   linkedin?: string;
   github?: string;
   message?: string;
-  status: 'pending' | 'reviewed' | 'accepted' | 'rejected';
+  status: 'pending' | 'reviewed' | 'interview phase' | 'onboarding' | 'rejected';
   createdAt: string;
   updatedAt: string;
 }
@@ -24,6 +24,7 @@ const AdminPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
+  const [updatingStatus, setUpdatingStatus] = useState(false);
 
   useEffect(() => {
     fetchApplications();
@@ -59,18 +60,72 @@ const AdminPage: React.FC = () => {
     });
   };
 
+  const formatStatus = (status: string) => {
+    return status
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case 'pending':
         return styles.statusPending;
       case 'reviewed':
         return styles.statusReviewed;
-      case 'accepted':
-        return styles.statusAccepted;
+      case 'interview phase':
+        return styles.statusInterview;
+      case 'onboarding':
+        return styles.statusOnboarding;
       case 'rejected':
         return styles.statusRejected;
       default:
         return styles.statusPending;
+    }
+  };
+
+  const updateStatus = async (applicationId: string, newStatus: string) => {
+    try {
+      setUpdatingStatus(true);
+      const response = await fetch(`/api/applications/${applicationId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Update the application in the list
+        setApplications((prev) =>
+          prev.map((app) =>
+            app._id === applicationId ? { ...app, status: newStatus as Application['status'] } : app
+          )
+        );
+
+        // Update selected application if it's the one being updated
+        if (selectedApplication && selectedApplication._id === applicationId) {
+          setSelectedApplication({
+            ...selectedApplication,
+            status: newStatus as Application['status'],
+          });
+        }
+      } else {
+        setError(data.error || 'Failed to update status');
+      }
+    } catch (err) {
+      setError('Failed to update status');
+      console.error('Error updating status:', err);
+    } finally {
+      setUpdatingStatus(false);
+    }
+  };
+
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (selectedApplication) {
+      updateStatus(selectedApplication._id, e.target.value);
     }
   };
 
@@ -119,7 +174,7 @@ const AdminPage: React.FC = () => {
                               application.status
                             )}`}
                           >
-                            {application.status}
+                            {formatStatus(application.status)}
                           </span>
                         </div>
                         <p className={styles.applicantEmail}>{application.email}</p>
@@ -144,11 +199,36 @@ const AdminPage: React.FC = () => {
                             selectedApplication.status
                           )}`}
                         >
-                          {selectedApplication.status}
+                          {formatStatus(selectedApplication.status)}
                         </span>
                       </div>
 
                       <div className={styles.detailContent}>
+                        <div className={styles.detailSection}>
+                          <h3 className={styles.sectionTitle}>Application Status</h3>
+                          <div className={styles.statusUpdateContainer}>
+                            <label htmlFor="status-select" className={styles.statusLabel}>
+                              Update Status:
+                            </label>
+                            <select
+                              id="status-select"
+                              value={selectedApplication.status}
+                              onChange={handleStatusChange}
+                              disabled={updatingStatus}
+                              className={styles.statusSelect}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="reviewed">Reviewed</option>
+                              <option value="interview phase">Interview Phase</option>
+                              <option value="onboarding">Onboarding</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+                            {updatingStatus && (
+                              <span className={styles.updatingText}>Updating...</span>
+                            )}
+                          </div>
+                        </div>
+
                         <div className={styles.detailSection}>
                           <h3 className={styles.sectionTitle}>Contact Information</h3>
                           <div className={styles.detailRow}>

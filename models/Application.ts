@@ -11,7 +11,7 @@ export interface IApplication extends Document {
   linkedin?: string;
   github?: string;
   message?: string;
-  status?: 'pending' | 'reviewed' | 'accepted' | 'rejected';
+  status?: 'pending' | 'reviewed' | 'interview phase' | 'onboarding' | 'rejected';
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -67,7 +67,7 @@ const ApplicationSchema: Schema = new Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'reviewed', 'accepted', 'rejected'],
+      enum: ['pending', 'reviewed', 'interview phase', 'onboarding', 'rejected'],
       default: 'pending',
     },
   },

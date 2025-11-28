@@ -124,7 +124,13 @@
   border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
-.statusAccepted {
+.statusInterview {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.statusOnboarding {
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
   border: 1px solid rgba(34, 197, 94, 0.3);
@@ -177,6 +183,71 @@
   gap: 16px;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+
+.statusUpdateContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #2a3441;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+.statusLabel {
+  color: #aab4bf;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.statusSelect {
+  background: #1c2126;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 16px;
+  color: #ffffff;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 300px;
+
+  &:focus {
+    outline: none;
+    border-color: #f66;
+    box-shadow: 0 0 0 3px rgba(255, 102, 102, 0.1);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  option {
+    background: #2a3441;
+    color: #ffffff;
+  }
+}
+
+.updatingText {
+  color: #aab4bf;
+  font-size: 14px;
+  font-style: italic;
+  white-space: nowrap;
 }
 
 .detailTitle {
