@@ -52,7 +52,7 @@ export async function PATCH(
     const body = await request.json();
     const { title, isActive } = body;
 
-    const updateData: any = {};
+    const updateData: { title?: string; isActive?: boolean } = {};
     if (title !== undefined) {
       updateData.title = title.trim();
     }
