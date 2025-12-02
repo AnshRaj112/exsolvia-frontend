@@ -1,0 +1,152 @@
+.blogDetailPage {
+  min-height: 100vh;
+  background: #212933;
+  padding: 80px 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: #f66;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #ff4444;
+    transform: translateX(-4px);
+  }
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  color: #aab4bf;
+  background: #1c2126;
+  border-radius: 12px;
+}
+
+.error {
+  color: #f66;
+}
+
+.blogArticle {
+  background: #1c2126;
+  border-radius: 12px;
+  padding: 48px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.blogHeader {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.blogTitle {
+  font-size: 40px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 20px 0;
+  line-height: 1.2;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+.blogMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.blogDate {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.blogDescription {
+  font-size: 18px;
+  color: #aab4bf;
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.blogContent {
+  font-size: 16px;
+  color: #e5e7eb;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  overflow-x: hidden;
+
+  // Style paragraphs if content has HTML
+  p {
+    margin: 0 0 20px 0;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Style line breaks
+  br {
+    line-height: 1.8;
+  }
+}
+
+@media (max-width: 768px) {
+  .blogDetailPage {
+    padding: 40px 0;
+  }
+
+  .blogArticle {
+    padding: 32px 24px;
+  }
+
+  .blogTitle {
+    font-size: 32px;
+  }
+
+  .blogDescription {
+    font-size: 16px;
+  }
+
+  .blogContent {
+    font-size: 15px;
+  }
+}
+

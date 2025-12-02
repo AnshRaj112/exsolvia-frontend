@@ -27,8 +27,17 @@ interface Position {
   updatedAt: string;
 }
 
+interface Blog {
+  _id: string;
+  title: string;
+  description: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const AdminPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'applications' | 'positions'>('applications');
+  const [activeTab, setActiveTab] = useState<'applications' | 'positions' | 'blogs'>('applications');
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +50,17 @@ const AdminPage: React.FC = () => {
   const [positionsError, setPositionsError] = useState<string | null>(null);
   const [newPositionTitle, setNewPositionTitle] = useState('');
   const [addingPosition, setAddingPosition] = useState(false);
+
+  // Blogs management state
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [blogsLoading, setBlogsLoading] = useState(false);
+  const [blogsError, setBlogsError] = useState<string | null>(null);
+  const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
+  const [isEditingBlog, setIsEditingBlog] = useState(false);
+  const [newBlogTitle, setNewBlogTitle] = useState('');
+  const [newBlogDescription, setNewBlogDescription] = useState('');
+  const [newBlogContent, setNewBlogContent] = useState('');
+  const [savingBlog, setSavingBlog] = useState(false);
 
   useEffect(() => {
     fetchApplications();
@@ -225,6 +245,156 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  // Blogs management functions
+  const fetchBlogs = async () => {
+    try {
+      setBlogsLoading(true);
+      setBlogsError(null);
+      const response = await fetch('/api/blogs');
+      const data = await response.json();
+
+      if (data.success) {
+        setBlogs(data.data);
+      } else {
+        setBlogsError(data.error || 'Failed to load blogs');
+      }
+    } catch (err) {
+      setBlogsError('Failed to fetch blogs');
+      console.error('Error fetching blogs:', err);
+    } finally {
+      setBlogsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'blogs') {
+      fetchBlogs();
+    }
+  }, [activeTab]);
+
+  const handleCreateBlog = async () => {
+    if (!newBlogTitle.trim() || !newBlogDescription.trim() || !newBlogContent.trim()) {
+      setBlogsError('All fields are required');
+      return;
+    }
+
+    try {
+      setSavingBlog(true);
+      setBlogsError(null);
+      const response = await fetch('/api/blogs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: newBlogTitle,
+          description: newBlogDescription,
+          content: newBlogContent,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setNewBlogTitle('');
+        setNewBlogDescription('');
+        setNewBlogContent('');
+        setIsEditingBlog(false);
+        await fetchBlogs();
+      } else {
+        setBlogsError(data.error || 'Failed to create blog');
+      }
+    } catch (err) {
+      setBlogsError('Failed to create blog');
+      console.error('Error creating blog:', err);
+    } finally {
+      setSavingBlog(false);
+    }
+  };
+
+  const handleUpdateBlog = async () => {
+    if (!selectedBlog || !newBlogTitle.trim() || !newBlogDescription.trim() || !newBlogContent.trim()) {
+      setBlogsError('All fields are required');
+      return;
+    }
+
+    try {
+      setSavingBlog(true);
+      setBlogsError(null);
+      const response = await fetch(`/api/blogs/${selectedBlog._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: newBlogTitle,
+          description: newBlogDescription,
+          content: newBlogContent,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSelectedBlog(null);
+        setIsEditingBlog(false);
+        setNewBlogTitle('');
+        setNewBlogDescription('');
+        setNewBlogContent('');
+        await fetchBlogs();
+      } else {
+        setBlogsError(data.error || 'Failed to update blog');
+      }
+    } catch (err) {
+      setBlogsError('Failed to update blog');
+      console.error('Error updating blog:', err);
+    } finally {
+      setSavingBlog(false);
+    }
+  };
+
+  const handleEditBlog = (blog: Blog) => {
+    setSelectedBlog(blog);
+    setNewBlogTitle(blog.title);
+    setNewBlogDescription(blog.description);
+    setNewBlogContent(blog.content);
+    setIsEditingBlog(true);
+  };
+
+  const handleCancelEdit = () => {
+    setSelectedBlog(null);
+    setIsEditingBlog(false);
+    setNewBlogTitle('');
+    setNewBlogDescription('');
+    setNewBlogContent('');
+  };
+
+  const handleDeleteBlog = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this blog? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/blogs/${id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        if (selectedBlog?._id === id) {
+          handleCancelEdit();
+        }
+        await fetchBlogs();
+      } else {
+        setBlogsError(data.error || 'Failed to delete blog');
+      }
+    } catch (err) {
+      setBlogsError('Failed to delete blog');
+      console.error('Error deleting blog:', err);
+    }
+  };
+
   return (
     <div className={styles.adminPage}>
       <div className={styles.container}>
@@ -247,6 +417,12 @@ const AdminPage: React.FC = () => {
             onClick={() => setActiveTab('positions')}
           >
             Positions
+          </button>
+          <button
+            className={`${styles.tab} ${activeTab === 'blogs' ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab('blogs')}
+          >
+            Blogs ({blogs.length})
           </button>
         </div>
 
@@ -518,6 +694,121 @@ const AdminPage: React.FC = () => {
                         >
                           Remove
                         </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'blogs' && (
+          <div className={styles.blogsSection}>
+            <div className={styles.sectionHeader}>
+              <h2>Manage Blogs</h2>
+              <p className={styles.sectionSubtitle}>
+                Create, edit, and delete blog posts
+              </p>
+            </div>
+
+            {blogsError && (
+              <div className={styles.error}>{blogsError}</div>
+            )}
+
+            {!isEditingBlog && (
+              <div className={styles.addBlogButtonContainer}>
+                <button
+                  onClick={() => setIsEditingBlog(true)}
+                  className={styles.addButton}
+                >
+                  + Create New Blog
+                </button>
+              </div>
+            )}
+
+            {(isEditingBlog || selectedBlog) && (
+              <div className={styles.blogForm}>
+                <h3 className={styles.formTitle}>
+                  {selectedBlog ? 'Edit Blog' : 'Create New Blog'}
+                </h3>
+                <div className={styles.formFields}>
+                  <input
+                    type="text"
+                    value={newBlogTitle}
+                    onChange={(e) => setNewBlogTitle(e.target.value)}
+                    placeholder="Blog Title"
+                    className={styles.blogInput}
+                  />
+                  <textarea
+                    value={newBlogDescription}
+                    onChange={(e) => setNewBlogDescription(e.target.value)}
+                    placeholder="Short description (shown in blog cards)"
+                    className={styles.blogTextarea}
+                    rows={3}
+                  />
+                  <textarea
+                    value={newBlogContent}
+                    onChange={(e) => setNewBlogContent(e.target.value)}
+                    placeholder="Blog content (full article text)"
+                    className={styles.blogTextarea}
+                    rows={10}
+                  />
+                </div>
+                <div className={styles.formActions}>
+                  <button
+                    onClick={selectedBlog ? handleUpdateBlog : handleCreateBlog}
+                    disabled={savingBlog || !newBlogTitle.trim() || !newBlogDescription.trim() || !newBlogContent.trim()}
+                    className={styles.saveButton}
+                  >
+                    {savingBlog ? 'Saving...' : selectedBlog ? 'Update Blog' : 'Create Blog'}
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    disabled={savingBlog}
+                    className={styles.cancelButton}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {blogsLoading && (
+              <div className={styles.loading}>Loading blogs...</div>
+            )}
+
+            {!blogsLoading && !isEditingBlog && (
+              <>
+                {blogs.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <p>No blogs found. Create your first blog above.</p>
+                  </div>
+                ) : (
+                  <div className={styles.blogsList}>
+                    {blogs.map((blog) => (
+                      <div key={blog._id} className={styles.blogCard}>
+                        <div className={styles.blogCardContent}>
+                          <h3 className={styles.blogCardTitle}>{blog.title}</h3>
+                          <p className={styles.blogCardDescription}>{blog.description}</p>
+                          <p className={styles.blogCardDate}>
+                            {formatDate(blog.createdAt)}
+                          </p>
+                        </div>
+                        <div className={styles.blogCardActions}>
+                          <button
+                            onClick={() => handleEditBlog(blog)}
+                            className={styles.editButton}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteBlog(blog._id)}
+                            className={styles.deleteButton}
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
