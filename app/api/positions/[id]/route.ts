@@ -9,7 +9,7 @@ export async function DELETE(
   try {
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
 
     // Instead of deleting, we'll deactivate the position
     const position = await Position.findByIdAndUpdate(
@@ -48,7 +48,7 @@ export async function PATCH(
   try {
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { title, isActive } = body;
 

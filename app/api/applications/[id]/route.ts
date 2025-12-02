@@ -9,7 +9,7 @@ export async function PATCH(
   try {
     await connectDB();
     
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { status } = body;
 
